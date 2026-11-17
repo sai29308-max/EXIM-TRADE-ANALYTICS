@@ -1,1 +1,1023 @@
+<!DOCTYPE html>
+<!-- ==========================================================================
+     Project Title : EX-IM Global Export-Import Data & Trade Analytics Platform
+     Subject       : Web Development Lab (WDL) Mini-Project
+     Description   : Interactive front-end platform for global trade intelligence,
+                     supply-chain nexus visualization, and shipment analytics.
+     ========================================================================== -->
+<html lang="en" style="scroll-behavior: smooth;">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EX-IM: Global Export-Import Data &amp; Trade Analytics Platform | WDL Project</title>
+    <meta name="description" content="An AI-powered platform for exporters and importers to discover buyers, suppliers and trade intelligence worldwide. Web Development Lab Academic Project.">
+    <meta name="theme-color" content="#000000">
 
+    <!-- Favicon & App Icons -->
+    <link rel="icon" href="https://www.ex-im.com/assets/icons/favicon.svg?v=1793120190" type="image/svg+xml">
+    <link rel="icon" href="https://www.ex-im.com/assets/icons/favicon-32.png?v=1793120190" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="https://www.ex-im.com/assets/icons/apple-touch-icon.png?v=1793120190">
+
+    <!-- Preload Typography & Hero Poster Assets -->
+    <link rel="preload" href="https://www.ex-im.com/assets/fonts/inter-600.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://www.ex-im.com/assets/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://www.ex-im.com/assets/images/posters/hero-v3.webp" as="image" media="(min-width: 768px)" fetchpriority="high">
+
+    <!-- Core Stylesheets (Kept intact for layout, animations, and Nexus visuals) -->
+    <link rel="stylesheet" href="https://www.ex-im.com/assets/css/site.css?v=1793267732">
+    <link rel="stylesheet" href="https://www.ex-im.com/assets/css/home.css?v=1794893223">
+    <link rel="stylesheet" href="https://www.ex-im.com/assets/css/nexus.css?v=1793120190">
+  </head>
+
+  <body>
+    <!-- Main Application Wrapper -->
+    <div class="wrapper-box">
+
+      <!-- ====================================================================
+           1. HERO & NAVIGATION SECTION
+           ==================================================================== -->
+      <section class="slider-section" id="top">
+        <div class="overlay_gradient"></div>
+
+        <!-- Background Hero Video (Desktop/Tablet) -->
+        <div class="hero-video-box">
+          <video class="hero-video" muted loop playsinline preload="auto" aria-hidden="true"
+            data-src="https://www.ex-im.com/assets/video/hero-v3.mp4?v=1793120190"
+            data-poster="https://www.ex-im.com/assets/images/posters/hero-v3.webp?v=1793120190"
+            data-still="https://www.ex-im.com/assets/images/posters/hero-v3-still.webp?v=1793120190">
+          </video>
+        </div>
+
+        <!-- Responsive Video Loader Script -->
+        <script>
+          /* Loads background video on desktop/tablet; falls back to interactive 3D globe on mobile */
+          (function () {
+            var v = document.querySelector('.hero-video'), phone = window.matchMedia('(max-width: 767.98px)');
+            var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            function pick() {
+              if (phone.matches) { if (v.getAttribute('src')) v.pause(); return; }
+              if (still) { v.poster = v.getAttribute('data-still'); return; }
+              if (!v.getAttribute('src')) { v.poster = v.getAttribute('data-poster'); v.src = v.getAttribute('data-src'); }
+              var p = v.play(); if (p) p.catch(function () {});
+            }
+            pick();
+            if (phone.addEventListener) phone.addEventListener('change', pick); else phone.addListener(pick);
+          })();
+        </script>
+
+        <!-- Top Navigation Bar -->
+        <div class="navbar_wrap navbar_scrolltop">
+          <div class="container">
+            <div class="row">
+              <div class="col-xxl-12 col-xl-12 col-md-12">
+                <nav class="navbar navbar-expand-lg">
+                  <div class="container-fluid">
+
+                    <!-- Brand Logo -->
+                    <a class="navbar-brand" href="#top">
+                      <img src="https://www.ex-im.com/assets/images/logo.svg?v=1793120190" alt="EX-IM" class="d-inline-block align-text-top">
+                    </a>
+
+                    <!-- Mobile Action Buttons -->
+                    <div class="mob-login">
+                      <form class="d-flex login_nav align-items-center d-block d-lg-none">
+                        <a href="#exim-foundation" class="login-btn">Login</a>
+                        <a class="bd-nav bd-nav--m" href="#dubai-office">Book a Demo</a>
+                      </form>
+
+                      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                      </button>
+                    </div>
+
+                    <!-- Desktop Navigation Links (Mapped to Local Page Sections for Demo) -->
+                    <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+                      <ul class="navbar-nav nav_menu gap-2">
+                        <li class="nav-item">
+                          <a class="nav-link" href="#exim-foundation">About Platform</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="#exim-nexus">Nexus Graph</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="#tm-title">Case Studies</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="#app-shrink">Mobile App</a>
+                        </li>
+                      </ul>
+
+                      <form class="d-flex login_nav align-items-center d-none d-lg-block">
+                        <a href="#exim-foundation" class="login-btn">Login</a>
+                        <a class="bd-nav" href="#dubai-office">
+                          Live Demo
+                          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M2 7h10M8 3l4 4-4 4"/>
+                          </svg>
+                        </a>
+                      </form>
+
+                    </div>
+                  </div>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Search & Headline -->
+        <div class="hero">
+          <div class="container">
+            <h1>
+              <span class="gradient-text">AI That Turns Trade</span> <br>
+              <span class="gradient-text">Intelligence into Market Wins</span>
+            </h1>
+            <p>Use real trade data to discover who to sell to, where <br>to compete, and how to grow.</p>
+
+            <!-- Search Input Box -->
+            <div class="search-wrapper">
+              <div class="search-inner">
+                <div class="search-icon">
+                  <img src="https://www.ex-im.com/assets/images/sparkle.webp?v=1793120190" alt="">
+                </div>
+                <input type="text" id="heroSearch" placeholder="Search for HS Code / Product / CAS" aria-label="Search for a product, HS code or CAS number" autocomplete="off" enterkeyhint="search">
+                <button class="search-btn" type="button" aria-label="Search">
+                  <i class="fa-solid fa-arrow-right"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Quick Search Suggestions -->
+            <div class="hs-try" role="group" aria-label="Searches to try">
+              <span>Try</span>
+              <button type="button" data-q="basmati rice">basmati rice</button>
+              <button type="button" data-q="1006">HS 1006</button>
+              <button type="button" data-q="coffee">coffee</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile Globe Host Container -->
+        <div class="hero-m" id="hero-m"></div>
+      </section>
+
+      <!-- ====================================================================
+           2. INDUSTRY PARTNER MARQUEE SECTION
+           ==================================================================== -->
+      <section class="trust-section">
+        <div class="container">
+          <div class="logo-carousel-wrapper">
+            <div class="trusted-carousel tl-marquee">
+              <div class="tl-track" style="--tl-dur: 34.1s">
+                <div class="trust-logo trust-logo--ink">
+                  <img src="https://www.ex-im.com/assets/images/clients/deloitte.webp?v=1793120190" alt="Deloitte" decoding="async">
+                </div>
+                <div class="trust-logo trust-logo--ink">
+                  <img src="https://www.ex-im.com/assets/images/clients/fedex.webp?v=1793120190" alt="FedEx" decoding="async">
+                </div>
+                <div class="trust-logo trust-logo--ink">
+                  <img src="https://www.ex-im.com/assets/images/clients/reliance.webp?v=1793120190" alt="Reliance Industries" decoding="async">
+                </div>
+                <div class="trust-logo trust-logo--ink">
+                  <img src="https://www.ex-im.com/assets/images/clients/adani.webp?v=1793120190" alt="Adani" decoding="async">
+                </div>
+                <div class="trust-logo trust-logo--ink">
+                  <img src="https://www.ex-im.com/assets/images/clients/pwc.webp?v=1793120190" alt="PwC" decoding="async">
+                </div>
+                <div class="trust-logo trust-logo--ink">
+                  <img src="https://www.ex-im.com/assets/images/clients/itc.webp?v=1793120190" alt="ITC Limited" decoding="async">
+                </div>
+                <div class="trust-logo trust-logo--ink">
+                  <img src="https://www.ex-im.com/assets/images/clients/jindal-steel.webp?v=1793120190" alt="Jindal Steel &amp; Power" decoding="async">
+                </div>
+                <div class="trust-logo trust-logo--ink">
+                  <img src="https://www.ex-im.com/assets/images/clients/mrf.webp?v=1793120190" alt="MRF" decoding="async">
+                </div>
+                <div class="trust-logo trust-logo--ink">
+                  <img src="https://www.ex-im.com/assets/images/clients/wipro.webp?v=1793120190" alt="Wipro" decoding="async">
+                </div>
+                <div class="trust-logo trust-logo--ink">
+                  <img src="https://www.ex-im.com/assets/images/clients/saint-gobain.webp?v=1793120190" alt="Saint-Gobain" decoding="async">
+                </div>
+                <div class="trust-logo trust-logo--ink">
+                  <img src="https://www.ex-im.com/assets/images/clients/jsw-energy.webp?v=1793120190" alt="JSW Energy" decoding="async">
+                </div>
+                <!-- Duplicate Track for Seamless Infinite Scroll -->
+                <div class="trust-logo trust-logo--ink" aria-hidden="true">
+                  <img src="https://www.ex-im.com/assets/images/clients/deloitte.webp?v=1793120190" alt="Deloitte" decoding="async">
+                </div>
+                <div class="trust-logo trust-logo--ink" aria-hidden="true">
+                  <img src="https://www.ex-im.com/assets/images/clients/fedex.webp?v=1793120190" alt="FedEx" decoding="async">
+                </div>
+                <div class="trust-logo trust-logo--ink" aria-hidden="true">
+                  <img src="https://www.ex-im.com/assets/images/clients/reliance.webp?v=1793120190" alt="Reliance Industries" decoding="async">
+                </div>
+                <div class="trust-logo trust-logo--ink" aria-hidden="true">
+                  <img src="https://www.ex-im.com/assets/images/clients/adani.webp?v=1793120190" alt="Adani" decoding="async">
+                </div>
+                <div class="trust-logo trust-logo--ink" aria-hidden="true">
+                  <img src="https://www.ex-im.com/assets/images/clients/pwc.webp?v=1793120190" alt="PwC" decoding="async">
+                </div>
+                <div class="trust-logo trust-logo--ink" aria-hidden="true">
+                  <img src="https://www.ex-im.com/assets/images/clients/itc.webp?v=1793120190" alt="ITC Limited" decoding="async">
+                </div>
+                <div class="trust-logo trust-logo--ink" aria-hidden="true">
+                  <img src="https://www.ex-im.com/assets/images/clients/jindal-steel.webp?v=1793120190" alt="Jindal Steel &amp; Power" decoding="async">
+                </div>
+                <div class="trust-logo trust-logo--ink" aria-hidden="true">
+                  <img src="https://www.ex-im.com/assets/images/clients/mrf.webp?v=1793120190" alt="MRF" decoding="async">
+                </div>
+                <div class="trust-logo trust-logo--ink" aria-hidden="true">
+                  <img src="https://www.ex-im.com/assets/images/clients/wipro.webp?v=1793120190" alt="Wipro" decoding="async">
+                </div>
+                <div class="trust-logo trust-logo--ink" aria-hidden="true">
+                  <img src="https://www.ex-im.com/assets/images/clients/saint-gobain.webp?v=1793120190" alt="Saint-Gobain" decoding="async">
+                </div>
+                <div class="trust-logo trust-logo--ink" aria-hidden="true">
+                  <img src="https://www.ex-im.com/assets/images/clients/jsw-energy.webp?v=1793120190" alt="JSW Energy" decoding="async">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           3. LIVE TRADE TICKER & ONE-SEARCH COMPONENT
+           ==================================================================== -->
+      <section class="tk" aria-label="EX-IM trade intelligence at work today">
+        <div class="tk__wrap">
+          <div class="tk__head">
+            <span class="tk__dots" aria-hidden="true">
+              <i style="--c:#FFBA6A;--d:0s"></i><i style="--c:#FFC98A;--d:.1s"></i><i style="--c:#E9D3E6;--d:.2s"></i>
+              <i style="--c:#FFC98A;--d:.1s"></i><i style="--c:#D8D3FF;--d:.2s"></i><i style="--c:#A9DAFF;--d:.3s"></i>
+              <i style="--c:#E9D3E6;--d:.2s"></i><i style="--c:#A9DAFF;--d:.3s"></i><i style="--c:#6FE2FF;--d:.4s"></i>
+            </span>
+            <span>Trade intelligence at work today:</span>
+          </div>
+          <div class="tk__view">
+            <div class="tk__track"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Dynamic One-Search Section Mount Point -->
+      <div id="os-host"></div>
+
+      <!-- ====================================================================
+           4. INTERACTIVE SUPPLY-CHAIN NEXUS VISUALIZATION (SVG)
+           ==================================================================== -->
+      <section class="nexus_video">
+        <div class="nexus-section text-center">
+          <h2 class="nexus-title">Nexus</h2>
+          <p class="nexus-text">Gain complete visibility into trade ecosystems with Company and Product Nexus, trace supply chains,
+            analyze trade flows, and connect directly with verified partners.</p>
+          <p class="nexus-text nexus-text--m">Trace any supply chain, tier after tier.</p>
+
+          <div class="nexus-svg-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" id="exim-nexus" viewBox="0 76 1200 644" width="100%" style="max-width:1200px;height:auto;display:block" font-family="Inter, 'Segoe UI', system-ui, sans-serif" role="img" aria-labelledby="nexusTitle nexusDesc">
+              <title id="nexusTitle">Company Nexus</title>
+              <desc id="nexusDesc">Trade network for Veridan Agro Foods Ltd: suppliers on the left, buyers on the right, flow width proportional to trade value. Switch between 2025 and 2026 to see a new supplier appear. Click any company to trace its own suppliers or buyers, tier after tier. All company names are fictional.</desc>
+
+              <defs>
+                <linearGradient id="brand" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" stop-color="#FFBA6A"/>
+                  <stop offset="0.45" stop-color="#D8D3FF"/>
+                  <stop offset="0.91" stop-color="#6FE2FF"/>
+                </linearGradient>
+                <linearGradient id="barGrad" x1="0" y1="196" x2="0" y2="644" gradientUnits="userSpaceOnUse">
+                  <stop offset="0" stop-color="#FFBA6A"/>
+                  <stop offset="0.55" stop-color="#D8D3FF"/>
+                  <stop offset="1" stop-color="#6FE2FF"/>
+                </linearGradient>
+                <linearGradient id="leftDim" x1="40" y1="0" x2="588" y2="0" gradientUnits="userSpaceOnUse">
+                  <stop offset="0" stop-color="#FFBA6A" stop-opacity="0.16"/>
+                  <stop offset="0.53" stop-color="#FFBA6A" stop-opacity="0.07"/>
+                  <stop offset="1" stop-color="#D8D3FF" stop-opacity="0.16"/>
+                </linearGradient>
+                <linearGradient id="leftHi" x1="40" y1="0" x2="588" y2="0" gradientUnits="userSpaceOnUse">
+                  <stop offset="0" stop-color="#FFBA6A"/>
+                  <stop offset="0.5" stop-color="#FFD7A6"/>
+                  <stop offset="1" stop-color="#E4E0FF"/>
+                </linearGradient>
+                <linearGradient id="rightFlow" x1="612" y1="0" x2="1146" y2="0" gradientUnits="userSpaceOnUse">
+                  <stop offset="0" stop-color="#D8D3FF" stop-opacity="0.22"/>
+                  <stop offset="1" stop-color="#6FE2FF" stop-opacity="0.07"/>
+                </linearGradient>
+                <radialGradient id="bgWarm" cx="0.08" cy="0" r="0.6">
+                  <stop offset="0" stop-color="#FFBA6A" stop-opacity="0.10"/>
+                  <stop offset="1" stop-color="#FFBA6A" stop-opacity="0"/>
+                </radialGradient>
+                <radialGradient id="bgCool" cx="0.95" cy="1" r="0.6">
+                  <stop offset="0" stop-color="#6FE2FF" stop-opacity="0.08"/>
+                  <stop offset="1" stop-color="#6FE2FF" stop-opacity="0"/>
+                </radialGradient>
+                <filter id="blur14" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="14"/></filter>
+                <filter id="blur6" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+                <filter id="cardShadow" x="-20%" y="-20%" width="140%" height="160%">
+                  <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#000" flood-opacity="0.6"/>
+                </filter>
+                <g id="flagIcon">
+                  <circle r="6.5" fill="none" stroke="#FF5A5F" stroke-width="1.6"/>
+                  <line x1="-4.6" y1="4.6" x2="4.6" y2="-4.6" stroke="#FF5A5F" stroke-width="1.6"/>
+                </g>
+              </defs>
+
+              <g class="nx-layer nx-head">
+                <text x="40" y="115" font-size="22" font-weight="700" fill="#FFFFFF" letter-spacing="-0.4">Company Nexus</text>
+                <g font-size="12" fill="#D6D6DC" text-anchor="middle">
+                  <rect x="230" y="94" width="96" height="30" rx="8" fill="#1B1B1B" stroke="#F6F6F2" stroke-opacity="0.12"/>
+                  <text x="278" y="113">HS 1511.10</text>
+                  <rect x="336" y="94" width="118" height="30" rx="8" fill="#1B1B1B" stroke="#F6F6F2" stroke-opacity="0.12"/>
+                  <text x="395" y="113">Last 12 months</text>
+                  <rect x="464" y="94" width="92" height="30" rx="8" fill="#1B1B1B" stroke="#F6F6F2" stroke-opacity="0.12"/>
+                  <text x="510" y="113">Value USD</text>
+                </g>
+
+                <rect x="1040" y="92" width="120" height="34" rx="10" fill="#15161A" stroke="#F6F6F2" stroke-opacity="0.12"/>
+                <rect id="pulse" x="1102" y="96" width="54" height="26" rx="8" fill="none" stroke="#FFBA6A" stroke-width="1.5"/>
+                <rect id="pill" x="1044" y="96" width="54" height="26" rx="8" fill="url(#brand)"/>
+                <text id="y25" class="yr" x="1071" y="114" font-size="12.5" text-anchor="middle">2025</text>
+                <text id="y26" class="yr" x="1129" y="114" font-size="12.5" text-anchor="middle">2026</text>
+              </g>
+
+              <g class="nx-layer nx-cols">
+                <g font-size="11" font-weight="600" fill="#8A8A94" letter-spacing="2.2">
+                  <text x="40" y="168">BUYING FROM</text>
+                  <text x="1160" y="168" text-anchor="end">SELLS TO</text>
+                </g>
+                <rect x="470" y="146" width="260" height="34" rx="17" fill="#15161A" stroke="#F6F6F2" stroke-opacity="0.35"/>
+                <text x="600" y="168" font-size="13.5" font-weight="600" fill="#FFFFFF" text-anchor="middle">Veridan Agro Foods Ltd · India</text>
+                <line x1="600" y1="180" x2="600" y2="196" stroke="#F6F6F2" stroke-opacity="0.35"/>
+              </g>
+
+              <g class="nx-layer nx-right">
+                <g id="R0">
+                  <path class="band" fill="url(#rightFlow)" d="M612,200 C879,200 879,200 1146,200 L1146,313.1 C879,313.1 879,338.2 612,338.2 Z"/>
+                  <rect class="bar" x="1146" y="200" width="8" height="113.1" rx="3" fill="#6FE2FF"/>
+                  <text class="nm" x="1136" y="253.5" font-size="14" text-anchor="end"><tspan font-weight="600" fill="#FFFFFF">Northgate Nutrition Inc</tspan><tspan fill="#8A8A94"> · United States</tspan></text>
+                  <text class="val" x="1136" y="271.5" font-size="12" fill="#6FE2FF" text-anchor="end" font-family="Inter, system-ui, sans-serif">$7.6M</text>
+                </g>
+                <g id="R1">
+                  <path class="band" fill="url(#rightFlow)" d="M612,338.2 C879,338.2 879,329.1 1146,329.1 L1146,415.3 C879,415.3 879,443.6 612,443.6 Z"/>
+                  <rect class="bar" x="1146" y="329.1" width="8" height="86.2" rx="3" fill="#6FE2FF" opacity="0.92"/>
+                  <text class="nm" x="1136" y="369.2" font-size="14" text-anchor="end"><tspan font-weight="600" fill="#FFFFFF">Redwood Fortune Foods</tspan><tspan fill="#8A8A94"> · United States</tspan></text>
+                  <text class="val" x="1136" y="387.2" font-size="12" fill="#6FE2FF" text-anchor="end" font-family="Inter, system-ui, sans-serif">$5.8M</text>
+                </g>
+                <g id="R2">
+                  <path class="band" fill="url(#rightFlow)" d="M612,443.6 C879,443.6 879,431.3 1146,431.3 L1146,504.2 C879,504.2 879,532.7 612,532.7 Z"/>
+                  <rect class="bar" x="1146" y="431.3" width="8" height="72.9" rx="3" fill="#6FE2FF" opacity="0.85"/>
+                  <text class="nm" x="1136" y="464.8" font-size="14" text-anchor="end"><tspan font-weight="600" fill="#FFFFFF">Padma Edible Oils Ltd</tspan><tspan fill="#8A8A94"> · Bangladesh</tspan></text>
+                  <text class="val" x="1136" y="482.8" font-size="12" fill="#6FE2FF" text-anchor="end" font-family="Inter, system-ui, sans-serif">$4.9M</text>
+                </g>
+                <g id="R3" opacity="0.9">
+                  <path class="band" fill="url(#rightFlow)" d="M612,532.7 C879,532.7 879,520.2 1146,520.2 L1146,560.4 C879,560.4 879,581.8 612,581.8 Z"/>
+                  <rect class="bar" x="1146" y="520.2" width="8" height="40.2" rx="3" fill="#6FE2FF" opacity="0.8"/>
+                  <text class="nm" x="1136" y="537.3" font-size="14" text-anchor="end"><tspan font-weight="600" fill="#FFFFFF">Maple Crest Chemicals</tspan><tspan fill="#8A8A94"> · Canada</tspan></text>
+                  <text class="val" x="1136" y="555.3" font-size="12" fill="#6FE2FF" text-anchor="end" font-family="Inter, system-ui, sans-serif">$2.7M</text>
+                </g>
+                <g id="R4" opacity="0.75">
+                  <path class="band" fill="url(#rightFlow)" d="M612,581.8 C879,581.8 879,576.4 1146,576.4 L1146,609.1 C879,609.1 879,621.8 612,621.8 Z"/>
+                  <rect class="bar" x="1146" y="576.4" width="8" height="32.7" rx="3" fill="#6FE2FF" opacity="0.85"/>
+                  <text class="nm" x="1136" y="589.8" font-size="13" text-anchor="end"><tspan font-weight="600" fill="#FFFFFF">Azteca Trade Co.</tspan><tspan fill="#8A8A94"> · Mexico</tspan></text>
+                  <text class="val" x="1136" y="604.8" font-size="11.5" fill="#6FE2FF" text-anchor="end" font-family="Inter, system-ui, sans-serif">$2.2M</text>
+                  <use class="flag" href="#flagIcon" x="1178" y="592.8"/>
+                </g>
+                <g id="R5" opacity="0.5">
+                  <path class="band" fill="url(#rightFlow)" d="M612,621.8 C879,621.8 879,625.1 1146,625.1 L1146,640 C879,640 879,640 612,640 Z"/>
+                  <rect class="bar" x="1146" y="625.1" width="8" height="14.9" rx="3" fill="#6FE2FF" opacity="0.8"/>
+                  <text class="nm" x="1136" y="636.6" font-size="12" fill="#8A8A94" text-anchor="end">7 other buyers · <tspan class="val">$1.0M</tspan></text>
+                </g>
+              </g>
+
+              <g class="nx-layer nx-left">
+                <g id="L0" class="lrow" tabindex="0" role="button" aria-label="Open Arunika Palm Co. profile">
+                  <path class="band" fill="url(#leftDim)" d="M40,200 L330,200 C459,200 459,200 588,200 L588,367.2 C459,367.2 459,355 330,355 L40,355 Z"/>
+                  <rect class="acc" x="40" y="200" width="4" height="155" rx="2" fill="#FFBA6A" opacity="0.7"/>
+                  <text class="nm" x="60" y="273.5" font-size="14"><tspan font-weight="600" fill="#FFFFFF">Arunika Palm Co.</tspan><tspan font-size="13" fill="#8A8A94"> · Indonesia</tspan></text>
+                  <text class="sub" x="60" y="291.5" font-size="11.5" fill="#8A8A94">$12.1M · 446 shipments</text>
+                  <text class="pct" x="318" y="273.5" font-size="14" text-anchor="end" font-weight="700" fill="#FFBA6A">38%</text>
+                </g>
+                <g id="L1" class="lrow" tabindex="0" role="button" aria-label="Open Kelapa Raya Oleo profile">
+                  <path class="band" fill="url(#leftDim)" d="M40,363 L330,363 C459,363 459,367.2 588,367.2 L588,486 C459,486 459,473.2 330,473.2 L40,473.2 Z"/>
+                  <rect class="acc" x="40" y="363" width="4" height="110.2" rx="2" fill="#FFBA6A" opacity="0.7"/>
+                  <text class="nm" x="60" y="414.1" font-size="14"><tspan font-weight="600" fill="#FFFFFF">Kelapa Raya Oleo</tspan><tspan font-size="13" fill="#8A8A94"> · Indonesia</tspan></text>
+                  <rect class="badge" x="60" y="423.1" width="36" height="17" rx="8.5" fill="#FFBA6A" fill-opacity="0.12" stroke="#FFBA6A" stroke-opacity="0.8"/>
+                  <text class="badgeT" x="78" y="435.6" font-size="9.5" font-weight="700" fill="#FFBA6A" text-anchor="middle" letter-spacing="0.8">YOU</text>
+                  <text class="sub" x="104" y="435.6" font-size="11.5" fill="#8A8A94">$8.6M · 311 shipments</text>
+                  <text class="pct" x="318" y="414.1" font-size="14" text-anchor="end" font-weight="700" fill="#FFBA6A">27%</text>
+                </g>
+                <g id="L2" opacity="0">
+                  <path class="glow" fill="#FFBA6A" opacity="0" filter="url(#blur14)" d="M40,481.2 L330,481.2 C459,481.2 459,486 588,486 L588,486 C459,486 459,481.2 330,481.2 L40,481.2 Z"/>
+                  <path class="band" fill="url(#leftHi)" d="M40,481.2 L330,481.2 C459,481.2 459,486 588,486 L588,486 C459,486 459,481.2 330,481.2 L40,481.2 Z"/>
+                  <rect class="acc" x="40" y="481.2" width="4" height="0" rx="2" fill="#FFBA6A"/>
+                  <text class="nm" x="60" y="486.2" font-size="14"><tspan font-weight="700" fill="#16130F">Tanjung Verde Oils</tspan><tspan font-size="13" fill="#5A4A38"> · Malaysia</tspan></text>
+                  <text class="sub" x="60" y="500" font-size="11.5" fill="#5A4A38" opacity="0">$6.9M · 54 shipments</text>
+                  <text class="pct" x="318" y="486.2" font-size="14" text-anchor="end" font-weight="700" fill="#16130F">0%</text>
+                </g>
+                <g id="L3" class="lrow" tabindex="0" role="button" aria-label="Open Volga Steppe Agro profile" opacity="0.85">
+                  <path class="band" fill="url(#leftDim)" d="M40,481.2 L330,481.2 C459,481.2 459,486 588,486 L588,552 C459,552 459,542.4 330,542.4 L40,542.4 Z"/>
+                  <rect class="acc" x="40" y="481.2" width="4" height="61.2" rx="2" fill="#FFBA6A" opacity="0.65"/>
+                  <text class="nm" x="60" y="516.8" font-size="14"><tspan font-weight="600" fill="#FFFFFF">Volga Steppe Agro</tspan><tspan font-size="13" fill="#8A8A94"> · Russia</tspan></text>
+                  <text class="pct" x="318" y="516.8" font-size="14" text-anchor="end" font-weight="700" fill="#FFBA6A">15%</text>
+                </g>
+                <g id="L4" class="lrow" tabindex="0" role="button" aria-label="Open Selatan Coastal Trading profile" opacity="0.7">
+                  <path class="band" fill="url(#leftDim)" d="M40,550.4 L330,550.4 C459,550.4 459,552 588,552 L588,604.8 C459,604.8 459,599.4 330,599.4 L40,599.4 Z"/>
+                  <rect class="acc" x="40" y="550.4" width="4" height="49" rx="2" fill="#FFBA6A" opacity="0.65"/>
+                  <text class="nm" x="60" y="579.9" font-size="13"><tspan font-weight="600" fill="#FFFFFF">Selatan Coastal Trading</tspan><tspan fill="#8A8A94"> · Malaysia</tspan></text>
+                  <text class="pct" x="318" y="579.9" font-size="13" text-anchor="end" font-weight="700" fill="#FFBA6A">12%</text>
+                </g>
+                <g id="L5" class="lrow" tabindex="0" role="button" aria-label="Open other sellers" opacity="0.45">
+                  <path class="band" fill="url(#leftDim)" d="M40,607.4 L330,607.4 C459,607.4 459,604.8 588,604.8 L588,640 C459,640 459,640 330,640 L40,640 Z"/>
+                  <rect class="acc" x="40" y="607.4" width="4" height="32.6" rx="2" fill="#FFBA6A" opacity="0.65"/>
+                  <text class="nm" x="60" y="627.7" font-size="12" fill="#FFFFFF">3 other sellers</text>
+                  <text class="pct" x="318" y="627.7" font-size="12" text-anchor="end" font-weight="700" fill="#FFBA6A">8%</text>
+                </g>
+              </g>
+
+              <g class="nx-layer nx-bar">
+                <rect x="588" y="196" width="24" height="448" rx="10" fill="url(#barGrad)" opacity="0.45" filter="url(#blur6)"/>
+                <rect x="588" y="196" width="24" height="448" rx="10" fill="url(#barGrad)"/>
+                <ellipse id="glowC" cx="600" cy="486" rx="34" ry="52" fill="#F2F0FF" opacity="0" filter="url(#blur14)"/>
+              </g>
+
+              <g id="card">
+                <line x1="372" y1="312" x2="372" y2="428" stroke="#FFBA6A" stroke-opacity="0.8" stroke-width="1.2"/>
+                <circle cx="372" cy="428" r="3.5" fill="#FFBA6A"/>
+                <rect x="340" y="212" width="236" height="100" rx="12" fill="#121318" fill-opacity="0.96" stroke="#FFBA6A" stroke-opacity="0.45" filter="url(#cardShadow)"/>
+                <text x="356" y="236" font-size="10" font-weight="700" fill="#FFBA6A" letter-spacing="1.4">NEW SUPPLIER SINCE MAR 2026</text>
+                <text x="356" y="261" font-size="17" font-weight="700" fill="#FFFFFF" letter-spacing="-0.2">Tanjung Verde Oils</text>
+                <text x="356" y="281" font-size="12" fill="#B9B9C3">Malaysia · 19% of volume</text>
+                <text x="356" y="299" font-size="12"><tspan fill="#6FE2FF" font-weight="600">$38/MT below</tspan><tspan fill="#B9B9C3"> your price</tspan></text>
+              </g>
+
+              <g class="nx-layer nx-legend">
+                <line x1="40" y1="664.5" x2="1160" y2="664.5" stroke="#FFFFFF" stroke-opacity="0.06"/>
+                <g font-size="11.5" fill="#8A8A94">
+                  <rect x="40" y="680" width="12" height="12" rx="3" fill="url(#leftHi)"/>
+                  <text x="60" y="690">New / highlighted supplier</text>
+                  <use href="#flagIcon" x="236" y="686"/>
+                  <text x="250" y="690">Watchlist / sanctions match</text>
+                  <rect x="440" y="684" width="28" height="4" rx="2" fill="url(#brand)"/>
+                  <text x="476" y="690">Flow width = share of trade value</text>
+                  <text x="1160" y="690" text-anchor="end">All company names are illustrative</text>
+                </g>
+              </g>
+              <rect id="btn25" class="hit" x="1044" y="96" width="54" height="26" rx="8" tabindex="0" role="button" aria-label="Show 2025"/>
+              <rect id="btn26" class="hit" x="1102" y="96" width="54" height="26" rx="8" tabindex="0" role="button" aria-label="Show 2026"/>
+            </svg>
+          </div>
+          <div class="nexus-phone" id="nexus-phone"></div>
+        </div>
+      </section>
+
+      <!-- Edge Story Dynamic Mount Point -->
+      <div id="edge-host"></div>
+      <div class="edge-phone" id="edge-phone"></div>
+
+      <!-- ====================================================================
+           5. THE EX-IM AI ENGINE & DATA FOUNDATION SECTION
+           ==================================================================== -->
+      <section class="fd" id="exim-foundation" aria-labelledby="fd-title">
+        <div class="fd__wrap">
+          <div class="fd__head fd-rise">
+            <div>
+              <div class="fd__eyebrow">THE EX-IM FOUNDATION</div>
+              <h2 class="fd__title" id="fd-title">Every answer is grounded in <span>real trade data.</span></h2>
+            </div>
+            <p class="fd__sub">Most tools give you one slice of trade. EX-IM brings shipments, companies, ports and people together on one AI foundation, so every decision starts from evidence.</p>
+          </div>
+
+          <div class="fd__core">
+            <div class="fd__stats fd-rise" style="--dl:.1s">
+              <div class="fd__stat"><b data-to="8" data-sfx="B+">0<i>B+</i></b><span>Shipment records</span></div>
+              <div class="fd__stat"><b data-to="181" data-sfx="+">0<i>+</i></b><span>Countries covered</span></div>
+              <div class="fd__stat"><b data-to="500" data-sfx="+">0<i>+</i></b><span>Ports analysed</span></div>
+              <div class="fd__stat"><b data-to="10" data-sfx="+">0<i>+</i></b><span>Data streams fused</span></div>
+            </div>
+
+            <figure class="fd__engine fd-rise" style="--dl:.2s">
+              <figcaption class="fd__elbl">EX-IM INTELLIGENCE</figcaption>
+              <svg class="engine-svg" viewBox="0 0 900 820" preserveAspectRatio="xMidYMid meet" role="img">
+                <defs>
+                  <linearGradient id="orbitGradient" x1="0%" y1="20%" x2="100%" y2="80%">
+                    <stop offset="0%" stop-color="#ffb45b"/>
+                    <stop offset="47%" stop-color="#d8d3ff"/>
+                    <stop offset="100%" stop-color="#61defe"/>
+                  </linearGradient>
+                  <linearGradient id="titleGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#ffb45b"/>
+                    <stop offset="50%" stop-color="#d8d3ff"/>
+                    <stop offset="100%" stop-color="#6fe2ff"/>
+                  </linearGradient>
+                  <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#ffb45b"/>
+                    <stop offset="48%" stop-color="#ffd0c3"/>
+                    <stop offset="100%" stop-color="#6fe2ff"/>
+                  </linearGradient>
+                  <linearGradient id="sourcePillGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#1b1c1f"/>
+                    <stop offset="100%" stop-color="#17181b"/>
+                  </linearGradient>
+                  <linearGradient id="lineWarm" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#ffba6a"/>
+                    <stop offset="100%" stop-color="#54dfff" stop-opacity=".12"/>
+                  </linearGradient>
+                  <linearGradient id="lineCool" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#d8d3ff"/>
+                    <stop offset="100%" stop-color="#6fe2ff" stop-opacity=".1"/>
+                  </linearGradient>
+                  <radialGradient id="globeHalo" cx="50%" cy="42%" r="60%">
+                    <stop offset="0%" stop-color="#4c8eff" stop-opacity=".24"/>
+                    <stop offset="52%" stop-color="#8a58ff" stop-opacity=".13"/>
+                    <stop offset="80%" stop-color="#ff5aa8" stop-opacity=".08"/>
+                    <stop offset="100%" stop-color="#ff674f" stop-opacity="0"/>
+                  </radialGradient>
+                  <linearGradient id="globeEdge" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#6fe2ff" stop-opacity=".28"/>
+                    <stop offset="50%" stop-color="#a673ff" stop-opacity=".18"/>
+                    <stop offset="100%" stop-color="#ff674f" stop-opacity=".3"/>
+                  </linearGradient>
+                  <path id="outerMotionPath" d="M450 290 A230 230 0 1 1 450 750 A230 230 0 1 1 450 290" fill="none"/>
+                  <path id="innerMotionPath" d="M450 330 A190 190 0 1 0 450 710 A190 190 0 1 0 450 330" fill="none"/>
+                </defs>
+
+                <path id="p1" class="source-line" stroke="url(#lineWarm)" d="M365.5 52.0 C343.5 122.0 385.0 273.0 395.0 365.0"/>
+                <path id="p2" class="source-line" stroke="url(#lineCool)" d="M584.5 52.0 C606.5 122.0 485.0 273.0 475.0 365.0"/>
+                <path id="p3" class="source-line" stroke="url(#lineWarm)" d="M353.0 104.0 C331.0 174.0 375.0 290.0 385.0 382.0"/>
+                <path id="p4" class="source-line" stroke="url(#lineCool)" d="M549.5 104.0 C571.5 174.0 505.0 290.0 495.0 382.0"/>
+                <path id="p5" class="source-line" stroke="url(#lineWarm)" d="M325.5 156.0 C303.5 226.0 365.0 306.0 375.0 398.0"/>
+                <path id="p6" class="source-line" stroke="url(#lineCool)" d="M534.5 156.0 C556.5 226.0 518.0 306.0 508.0 398.0"/>
+                <path id="p7" class="source-line" stroke="url(#lineWarm)" d="M330.5 208.0 C308.5 278.0 382.0 322.0 392.0 414.0"/>
+                <path id="p8" class="source-line" stroke="url(#lineCool)" d="M597.0 208.0 C619.0 278.0 498.0 322.0 488.0 414.0"/>
+                <path id="p9" class="source-line" stroke="url(#lineWarm)" d="M303.0 260.0 C281.0 330.0 410.0 336.0 420.0 428.0"/>
+                <path id="p10" class="source-line" stroke="url(#lineCool)" d="M547.0 260.0 C569.0 330.0 476.0 336.0 466.0 428.0"/>
+
+                <g>
+                  <g><polygon class="flow-arrow" points="-9,-7 7,0 -9,7"/><polygon class="flow-arrow-core" points="-5,-4 3,0 -5,4"/><animateMotion dur="6s" begin="-0.00s" repeatCount="indefinite" rotate="auto"><mpath href="#p1"/></animateMotion></g>
+                  <g><polygon class="flow-arrow" points="-9,-7 7,0 -9,7"/><polygon class="flow-arrow-core" points="-5,-4 3,0 -5,4"/><animateMotion dur="6s" begin="-0.45s" repeatCount="indefinite" rotate="auto"><mpath href="#p2"/></animateMotion></g>
+                  <g><polygon class="flow-arrow" points="-9,-7 7,0 -9,7"/><polygon class="flow-arrow-core" points="-5,-4 3,0 -5,4"/><animateMotion dur="6s" begin="-0.90s" repeatCount="indefinite" rotate="auto"><mpath href="#p3"/></animateMotion></g>
+                  <g><polygon class="flow-arrow" points="-9,-7 7,0 -9,7"/><polygon class="flow-arrow-core" points="-5,-4 3,0 -5,4"/><animateMotion dur="6s" begin="-1.35s" repeatCount="indefinite" rotate="auto"><mpath href="#p4"/></animateMotion></g>
+                  <g><polygon class="flow-arrow" points="-9,-7 7,0 -9,7"/><polygon class="flow-arrow-core" points="-5,-4 3,0 -5,4"/><animateMotion dur="6s" begin="-1.80s" repeatCount="indefinite" rotate="auto"><mpath href="#p5"/></animateMotion></g>
+                  <g><polygon class="flow-arrow" points="-9,-7 7,0 -9,7"/><polygon class="flow-arrow-core" points="-5,-4 3,0 -5,4"/><animateMotion dur="6s" begin="-2.25s" repeatCount="indefinite" rotate="auto"><mpath href="#p6"/></animateMotion></g>
+                  <g><polygon class="flow-arrow" points="-9,-7 7,0 -9,7"/><polygon class="flow-arrow-core" points="-5,-4 3,0 -5,4"/><animateMotion dur="6s" begin="-2.70s" repeatCount="indefinite" rotate="auto"><mpath href="#p7"/></animateMotion></g>
+                  <g><polygon class="flow-arrow" points="-9,-7 7,0 -9,7"/><polygon class="flow-arrow-core" points="-5,-4 3,0 -5,4"/><animateMotion dur="6s" begin="-3.15s" repeatCount="indefinite" rotate="auto"><mpath href="#p8"/></animateMotion></g>
+                  <g><polygon class="flow-arrow" points="-9,-7 7,0 -9,7"/><polygon class="flow-arrow-core" points="-5,-4 3,0 -5,4"/><animateMotion dur="6s" begin="-3.60s" repeatCount="indefinite" rotate="auto"><mpath href="#p9"/></animateMotion></g>
+                  <g><polygon class="flow-arrow" points="-9,-7 7,0 -9,7"/><polygon class="flow-arrow-core" points="-5,-4 3,0 -5,4"/><animateMotion dur="6s" begin="-4.05s" repeatCount="indefinite" rotate="auto"><mpath href="#p10"/></animateMotion></g>
+                </g>
+
+                <g class="node source-node">
+                  <rect class="pill" x="248.0" y="16" width="235" height="36" rx="20"/>
+                  <text x="365.5" y="35.0">Commodity price indexes</text>
+                </g>
+                <g class="node source-node">
+                  <rect class="pill" x="517.0" y="16" width="135" height="36" rx="20"/>
+                  <text x="584.5" y="35.0">Trade data</text>
+                </g>
+                <g class="node source-node">
+                  <rect class="pill" x="270.5" y="68" width="165" height="36" rx="20"/>
+                  <text x="353.0" y="87.0">BL information</text>
+                </g>
+                <g class="node source-node">
+                  <rect class="pill" x="469.5" y="68" width="160" height="36" rx="20"/>
+                  <text x="549.5" y="87.0">Declarations</text>
+                </g>
+                <g class="node source-node">
+                  <rect class="pill" x="258.0" y="120" width="135" height="36" rx="20"/>
+                  <text x="325.5" y="139.0">Sanctions</text>
+                </g>
+                <g class="node source-node">
+                  <rect class="pill" x="427.0" y="120" width="215" height="36" rx="20"/>
+                  <text x="534.5" y="139.0">Vessel tracking data</text>
+                </g>
+                <g class="node source-node">
+                  <rect class="pill" x="200.5" y="172" width="260" height="36" rx="20"/>
+                  <text x="330.5" y="191.0">World Ports congestion data</text>
+                </g>
+                <g class="node source-node">
+                  <rect class="pill" x="494.5" y="172" width="205" height="36" rx="20"/>
+                  <text x="597.0" y="191.0">Corporate linkages</text>
+                </g>
+                <g class="node source-node">
+                  <rect class="pill" x="223.0" y="224" width="160" height="36" rx="20"/>
+                  <text x="303.0" y="243.0">Duties &amp; tariffs</text>
+                </g>
+                <g class="node source-node">
+                  <rect class="pill" x="417.0" y="224" width="260" height="36" rx="20"/>
+                  <text x="547.0" y="243.0">Global Economic indicators</text>
+                </g>
+
+                <circle class="outer-orbit" cx="450" cy="520" r="230" stroke="url(#orbitGradient)"/>
+                <circle class="inner-orbit" cx="450" cy="520" r="190"/>
+
+                <circle class="orbit-dot orange" r="5.5"><animateMotion dur="12s" begin="0s" repeatCount="indefinite" calcMode="linear"><mpath href="#outerMotionPath"/></animateMotion></circle>
+                <circle class="orbit-dot gray" r="5.5"><animateMotion dur="12s" begin="-2.4s" repeatCount="indefinite" calcMode="linear"><mpath href="#outerMotionPath"/></animateMotion></circle>
+                <circle class="orbit-dot blue" r="5.5"><animateMotion dur="12s" begin="-4.8s" repeatCount="indefinite" calcMode="linear"><mpath href="#outerMotionPath"/></animateMotion></circle>
+                <circle class="orbit-dot orange" r="5.5"><animateMotion dur="12s" begin="-7.2s" repeatCount="indefinite" calcMode="linear"><mpath href="#outerMotionPath"/></animateMotion></circle>
+                <circle class="orbit-dot gray" r="5.5"><animateMotion dur="12s" begin="-9.6s" repeatCount="indefinite" calcMode="linear"><mpath href="#outerMotionPath"/></animateMotion></circle>
+                <circle class="orbit-dot gray" r="5.5"><animateMotion dur="12s" begin="0s" repeatCount="indefinite" calcMode="linear"><mpath href="#innerMotionPath"/></animateMotion></circle>
+                <circle class="orbit-dot orange" r="5.5"><animateMotion dur="12s" begin="-1.71s" repeatCount="indefinite" calcMode="linear"><mpath href="#innerMotionPath"/></animateMotion></circle>
+                <circle class="orbit-dot blue" r="5.5"><animateMotion dur="12s" begin="-3.43s" repeatCount="indefinite" calcMode="linear"><mpath href="#innerMotionPath"/></animateMotion></circle>
+                <circle class="orbit-dot gray" r="5.5"><animateMotion dur="12s" begin="-5.14s" repeatCount="indefinite" calcMode="linear"><mpath href="#innerMotionPath"/></animateMotion></circle>
+                <circle class="orbit-dot orange" r="5.5"><animateMotion dur="12s" begin="-6.86s" repeatCount="indefinite" calcMode="linear"><mpath href="#innerMotionPath"/></animateMotion></circle>
+                <circle class="orbit-dot blue" r="5.5"><animateMotion dur="12s" begin="-8.57s" repeatCount="indefinite" calcMode="linear"><mpath href="#innerMotionPath"/></animateMotion></circle>
+                <circle class="orbit-dot gray" r="5.5"><animateMotion dur="12s" begin="-10.29s" repeatCount="indefinite" calcMode="linear"><mpath href="#innerMotionPath"/></animateMotion></circle>
+
+                <circle class="globe-halo" cx="450" cy="520" r="186"/>
+                <circle class="globe-shell" cx="450" cy="520" r="170"/>
+                <g id="globeDots"></g>
+                <text class="center-title" x="450" y="520" fill="url(#titleGradient)">EX-IM ENGINE</text>
+
+                <g class="node small"><rect class="pill" x="182" y="358" width="132" height="33" rx="18"/><text x="248" y="375">AI Enrichment</text></g>
+                <g class="node small"><rect class="pill" x="580" y="341" width="205" height="33" rx="18"/><text x="682.5" y="358">Named Entity Recognition</text></g>
+                <g class="node small"><rect class="pill" x="625" y="520" width="117" height="33" rx="18"/><text x="683.5" y="537">Data Fusion</text></g>
+                <g class="node small"><rect class="pill" x="548" y="676" width="130" height="33" rx="18"/><text x="613" y="693">Deduplication</text></g>
+                <g class="node small"><rect class="pill" x="289" y="705" width="163" height="33" rx="18"/><text x="370.5" y="722">Human Verification</text></g>
+                <g class="node small"><rect class="pill" x="129" y="554" width="180" height="33" rx="18"/><text x="219" y="571">Smart Trade Mapping</text></g>
+              </svg>
+            </figure>
+          </div>
+
+          <!-- Institutional Collaborations Spotlight -->
+          <div class="fd__collab">
+            <div class="fd__chead fd-rise">
+              <div>
+                <div class="fd__eyebrow">IN COLLABORATION WITH</div>
+                <h3 class="fd__ctitle">Trusted by the institutions<br> that <span>move global trade.</span></h3>
+              </div>
+              <p class="fd__cnote">We work with economic zones and banks to put trade intelligence in the hands of their businesses.</p>
+            </div>
+
+            <div class="cpC" id="cp-spotlight" data-img="https://www.ex-im.com/assets/images/">
+              <div class="cpC__stage">
+                <div class="cpC__glow"></div><div class="cpC__grid"></div>
+                <div class="cpC__lock">
+                  <div class="cpC__slot cpC__slot--pl">
+                    <img data-p="rakez" src="https://www.ex-im.com/assets/images/partners/rakez-ondark.webp?v=1793120190" loading="lazy" decoding="async" alt="RAKEZ, Ras Al Khaimah Economic Zone">
+                    <img data-p="icici" src="https://www.ex-im.com/assets/images/partners/icici-ondark.webp?v=1793120190" loading="lazy" decoding="async" alt="ICICI Bank">
+                    <img data-p="axis" src="https://www.ex-im.com/assets/images/partners/axis-ondark.webp?v=1793120190" loading="lazy" decoding="async" alt="Axis Bank">
+                  </div>
+                </div>
+                <div class="cpC__copy" aria-live="polite">
+                  <div class="cpC__tag"></div>
+                  <h4 class="cpC__h"></h4>
+                  <p class="cpC__p"></p>
+                  <div class="cpC__facts"></div>
+                </div>
+              </div>
+              <div class="cpC__tabs" role="tablist" aria-label="Collaborations"></div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           6. GLOBAL EXPERIENCE CENTRE SECTION
+           ==================================================================== -->
+      <section class="ofA" id="dubai-office" aria-labelledby="ofA-title">
+        <div class="ofA__frame">
+          <video muted loop playsinline preload="none" poster="https://www.ex-im.com/assets/images/posters/dubai.webp?v=1793120190" aria-label="Inside the EX-IM experience centre in Dubai">
+            <source src="https://www.ex-im.com/assets/video/dubai.mp4?v=1793120190" type="video/mp4">
+          </video>
+          <span class="ofA__pin">
+            <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 0a4 4 0 0 0-4 4c0 3 4 8 4 8s4-5 4-8a4 4 0 0 0-4-4m0 5.5A1.5 1.5 0 1 1 6 2.5a1.5 1.5 0 0 1 0 3"/></svg>
+            WORLD TRADE CENTRE &middot; DUBAI
+          </span>
+          <div class="ofA__copy">
+            <div class="ofA__eyebrow">EX-IM &middot; DUBAI</div>
+            <h2 class="ofA__title" id="ofA-title">Our Dubai experience centre, at the <span>World Trade Centre.</span></h2>
+            <p class="ofA__sub">Explore our global trade intelligence hub and interactive analytics showcase.</p>
+            <div class="ofA__ctas">
+              <a class="ofA__btn" href="#top">Try Trade Search</a>
+              <a class="ofA__btn ofA__btn--ghost" href="#exim-nexus">Explore Nexus</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           7. CLIENT TESTIMONIALS SECTION
+           (Unknown person photos replaced with custom SVG vector avatars)
+           ==================================================================== -->
+      <section class="testimonial-section tm" aria-labelledby="tm-title">
+        <div class="tm__wrap">
+          <div class="tmh tmh--b tm-rise">
+            <div class="tmh__eyebrow">TESTIMONIALS</div>
+            <h2 class="tmh__title" id="tm-title">Trusted once,<br><span>renewed for a decade.</span></h2>
+            <div class="tmb__stats">
+              <div class="tmb__stat"><b data-to="50000" data-sfx="+">0</b><span>Clients worldwide</span></div>
+              <div class="tmb__stat"><b data-to="40" data-sfx="+">0</b><span>Countries</span></div>
+              <div class="tmb__stat"><b data-to="10" data-sfx=" yrs">0</b><span>Our longest-standing clients, still renewing</span><span class="tmb__m">Still renewing</span></div>
+            </div>
+          </div>
+
+          <!-- Featured Accordion Testimonials -->
+          <div class="tm__feature tm-rise" style="--d:.1s">
+            <article class="tm__f is-open" data-i="0">
+              <div class="tm__brand"><span class="tm__mono" aria-hidden="true">MA</span><span class="tm__co">MoveToAsia</span></div>
+              <div class="tm__body">
+                <p class="tm__quote">&ldquo;Thanks to EX-IM, my company&rsquo;s market research process has become more efficient, allowing us to scale up significantly. Furthermore, EX-IM has helped me find and reach new, potential markets globally.&rdquo;</p>
+                <div class="tm__who">
+                  <!-- Custom Vector Avatar (GR) replacing unknown person photo -->
+                  <img class="tm__ava" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23FFBA6A'/%3E%3Cstop offset='100%25' stop-color='%236FE2FF'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='40' cy='40' r='39' fill='%23161820' stroke='url(%23g1)' stroke-width='2'/%3E%3Ccircle cx='40' cy='31' r='12' fill='url(%23g1)' opacity='0.9'/%3E%3Cpath d='M18 65c4-12 14-18 22-18s18 6 22 18' fill='url(%23g1)' opacity='0.9'/%3E%3C/svg%3E" alt="Verified Client Avatar" loading="lazy" decoding="async">
+                  <div class="tm__id"><b>Guillaume Rondan</b><span>Founder &amp; CEO &middot; MoveToAsia</span></div>
+                </div>
+              </div>
+              <button class="tm__toggle" type="button" aria-expanded="true" aria-label="Testimonial from Guillaume Rondan"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+            </article>
+
+            <article class="tm__f" data-i="1">
+              <div class="tm__brand"><span class="tm__mono" aria-hidden="true">VI</span><span class="tm__co">Viet-Italian International</span></div>
+              <div class="tm__body">
+                <p class="tm__quote">&ldquo;I run a coffee business, and EX-IM helped me reach the right target audience. Using competitor customer data, I proactively contacted them, offered suitable deals, and successfully converted one-third of them into my customers.&rdquo;</p>
+                <div class="tm__who">
+                  <!-- Custom Vector Avatar (NP) replacing unknown person photo -->
+                  <img class="tm__ava" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cdefs%3E%3ClinearGradient id='g2' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%236FE2FF'/%3E%3Cstop offset='100%25' stop-color='%23D8D3FF'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='40' cy='40' r='39' fill='%23161820' stroke='url(%23g2)' stroke-width='2'/%3E%3Ccircle cx='40' cy='31' r='12' fill='url(%23g2)' opacity='0.9'/%3E%3Cpath d='M18 65c4-12 14-18 22-18s18 6 22 18' fill='url(%23g2)' opacity='0.9'/%3E%3C/svg%3E" alt="Verified Client Avatar" loading="lazy" decoding="async">
+                  <div class="tm__id"><b>Nguyen Thi Phuong</b><span>Chief Operations Officer &middot; Viet-Italian International Company</span></div>
+                </div>
+              </div>
+              <button class="tm__toggle" type="button" aria-expanded="false" aria-label="Testimonial from Nguyen Thi Phuong"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+            </article>
+
+            <article class="tm__f" data-i="2">
+              <div class="tm__brand"><span class="tm__mono" aria-hidden="true">EV</span><span class="tm__co">Europe Vietnam</span></div>
+              <div class="tm__body">
+                <p class="tm__quote">&ldquo;Thanks to EX-IM, I understand the prices customers are paying from other suppliers. From there, I can build a more competitive proposal and double my conversion rate from potential customers to actual orders.&rdquo;</p>
+                <div class="tm__who">
+                  <!-- Custom Vector Avatar (LN) replacing unknown person photo -->
+                  <img class="tm__ava" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cdefs%3E%3ClinearGradient id='g3' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23D8D3FF'/%3E%3Cstop offset='100%25' stop-color='%23FFBA6A'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='40' cy='40' r='39' fill='%23161820' stroke='url(%23g3)' stroke-width='2'/%3E%3Ccircle cx='40' cy='31' r='12' fill='url(%23g3)' opacity='0.9'/%3E%3Cpath d='M18 65c4-12 14-18 22-18s18 6 22 18' fill='url(%23g3)' opacity='0.9'/%3E%3C/svg%3E" alt="Verified Client Avatar" loading="lazy" decoding="async">
+                  <div class="tm__id"><b>Le Thi Hong Nga</b><span>Sales Director &middot; Europe Vietnam Company</span></div>
+                </div>
+              </div>
+              <button class="tm__toggle" type="button" aria-expanded="false" aria-label="Testimonial from Le Thi Hong Nga"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+            </article>
+          </div>
+
+          <!-- Grid Testimonials -->
+          <div class="tm__grid">
+            <article class="tm__card tm-rise" style="--d:.15s">
+              <div class="tm__top"><div class="tm__brand"><span class="tm__mono" aria-hidden="true">IIFT</span><span class="tm__co">IIFT New Delhi</span></div></div>
+              <p class="tm__quote">&ldquo;EX-IM is a revolutionary technology in foreign trade. I strongly recommend all exporters and importers around the world to try EX-IM and experience this mind-moving platform.&rdquo;</p>
+              <div class="tm__foot">
+                <div class="tm__id"><b>Dr. A. K. Sengupta, Ph.D. (Foreign Trade)</b><span>Former Dean &middot; Indian Institute of Foreign Trade</span></div>
+                <img class="tm__ava" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cdefs%3E%3ClinearGradient id='g4' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23FFBA6A'/%3E%3Cstop offset='100%25' stop-color='%236FE2FF'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='40' cy='40' r='39' fill='%23161820' stroke='url(%23g4)' stroke-width='2'/%3E%3Ctext x='40' y='47' font-family='Inter,sans-serif' font-size='22' font-weight='700' fill='%23FFBA6A' text-anchor='middle'%3EAS%3C/text%3E%3C/svg%3E" alt="AS" loading="lazy" decoding="async">
+              </div>
+            </article>
+
+            <article class="tm__card tm-rise" style="--d:.22s">
+              <div class="tm__top"><div class="tm__brand"><span class="tm__mono" aria-hidden="true">NP</span><span class="tm__co">Neelkanth Polymers</span></div></div>
+              <p class="tm__quote">&ldquo;I have been a user of EX-IM for the last couple of years. I have found the EX-IM tool to be very useful for all those involved in foreign trade. I believe their trade analytics and support is truly outstanding.&rdquo;</p>
+              <div class="tm__foot">
+                <div class="tm__id"><b>Harish Jaisansaria</b><span>Director &middot; Neelkanth Polymers</span></div>
+                <img class="tm__ava" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cdefs%3E%3ClinearGradient id='g5' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%236FE2FF'/%3E%3Cstop offset='100%25' stop-color='%23D8D3FF'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='40' cy='40' r='39' fill='%23161820' stroke='url(%23g5)' stroke-width='2'/%3E%3Ctext x='40' y='47' font-family='Inter,sans-serif' font-size='22' font-weight='700' fill='%236FE2FF' text-anchor='middle'%3EHJ%3C/text%3E%3C/svg%3E" alt="HJ" loading="lazy" decoding="async">
+              </div>
+            </article>
+
+            <article class="tm__card tm-rise" style="--d:.29s">
+              <div class="tm__top"><div class="tm__brand"><span class="tm__mono" aria-hidden="true">AE</span><span class="tm__co">Abi Exports</span></div><span class="tm__lic">User since 2017</span></div>
+              <p class="tm__quote">&ldquo;Thanks to EX-IM, I have developed a good rapport with a US buyer and am confident he will give the order to me.&rdquo;</p>
+              <div class="tm__foot">
+                <div class="tm__id"><b>Ashok Kumar</b><span>Proprietor &middot; Abi Exports, Tamil Nadu</span></div>
+                <img class="tm__ava" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cdefs%3E%3ClinearGradient id='g6' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23D8D3FF'/%3E%3Cstop offset='100%25' stop-color='%23FFBA6A'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='40' cy='40' r='39' fill='%23161820' stroke='url(%23g6)' stroke-width='2'/%3E%3Ctext x='40' y='47' font-family='Inter,sans-serif' font-size='22' font-weight='700' fill='%23D8D3FF' text-anchor='middle'%3EAK%3C/text%3E%3C/svg%3E" alt="AK" loading="lazy" decoding="async">
+              </div>
+            </article>
+
+            <article class="tm__card tm-rise" style="--d:.15s">
+              <div class="tm__top"><div class="tm__brand"><span class="tm__mono" aria-hidden="true">ME</span><span class="tm__co">Murari Exports</span></div><span class="tm__lic">User since 2018</span></div>
+              <p class="tm__quote">&ldquo;EX-IM has helped me understand my competitors&rsquo; businesses. Their buyers are now literally &lsquo;my&rsquo; buyers.&rdquo;</p>
+              <div class="tm__foot">
+                <div class="tm__id"><b>Bhavin Gupta</b><span>Owner &middot; Murari Exports, Telangana</span></div>
+                <img class="tm__ava" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cdefs%3E%3ClinearGradient id='g7' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23FFBA6A'/%3E%3Cstop offset='100%25' stop-color='%236FE2FF'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='40' cy='40' r='39' fill='%23161820' stroke='url(%23g7)' stroke-width='2'/%3E%3Ctext x='40' y='47' font-family='Inter,sans-serif' font-size='22' font-weight='700' fill='%23FFBA6A' text-anchor='middle'%3EBG%3C/text%3E%3C/svg%3E" alt="BG" loading="lazy" decoding="async">
+              </div>
+            </article>
+
+            <article class="tm__card tm-rise" style="--d:.22s">
+              <div class="tm__top"><div class="tm__brand"><span class="tm__mono" aria-hidden="true">TS</span><span class="tm__co">Thea Soaps</span></div><span class="tm__lic">User since 2017</span></div>
+              <p class="tm__quote">&ldquo;With EX-IM, Thea Soaps has got a wonderfully effective platform to reach out to buyers across the world.&rdquo;</p>
+              <div class="tm__foot">
+                <div class="tm__id"><b>K. Radha Manohari</b><span>Proprietor &middot; Thea Soaps, Telangana</span></div>
+                <img class="tm__ava" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cdefs%3E%3ClinearGradient id='g8' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%236FE2FF'/%3E%3Cstop offset='100%25' stop-color='%23FFBA6A'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='40' cy='40' r='39' fill='%23161820' stroke='url(%23g8)' stroke-width='2'/%3E%3Ctext x='40' y='47' font-family='Inter,sans-serif' font-size='22' font-weight='700' fill='%236FE2FF' text-anchor='middle'%3ERM%3C/text%3E%3C/svg%3E" alt="RM" loading="lazy" decoding="async">
+              </div>
+            </article>
+
+            <article class="tm__card tm-rise" style="--d:.29s">
+              <div class="tm__top"><div class="tm__brand"><span class="tm__mono" aria-hidden="true">VI</span><span class="tm__co">Venus Impex</span></div><span class="tm__lic">User since 2016</span></div>
+              <p class="tm__quote">&ldquo;EX-IM provided me with buyer profiles that materialised into high-value business.&rdquo;</p>
+              <div class="tm__foot">
+                <div class="tm__id"><b>Amar Pamu</b><span>Proprietor &middot; Venus Impex, Maharashtra</span></div>
+                <img class="tm__ava" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cdefs%3E%3ClinearGradient id='g9' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23D8D3FF'/%3E%3Cstop offset='100%25' stop-color='%236FE2FF'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='40' cy='40' r='39' fill='%23161820' stroke='url(%23g9)' stroke-width='2'/%3E%3Ctext x='40' y='47' font-family='Inter,sans-serif' font-size='22' font-weight='700' fill='%23D8D3FF' text-anchor='middle'%3EAP%3C/text%3E%3C/svg%3E" alt="AP" loading="lazy" decoding="async">
+              </div>
+            </article>
+          </div>
+
+          <!-- Secondary Client Logos -->
+          <div class="tm__logos tm-rise" style="--d:.2s" aria-label="Companies that trust EX-IM">
+            <img src="https://www.ex-im.com/assets/images/clients/bambino.webp?v=1793120190" alt="Bambino" loading="lazy" decoding="async">
+            <img src="https://www.ex-im.com/assets/images/clients/bikanervala.webp?v=1793120190" alt="Bikanervala" loading="lazy" decoding="async">
+            <img src="https://www.ex-im.com/assets/images/clients/durian.webp?v=1793120190" alt="Durian" loading="lazy" decoding="async">
+            <img src="https://www.ex-im.com/assets/images/clients/greaves.webp?v=1793120190" alt="Greaves" loading="lazy" decoding="async">
+            <img src="https://www.ex-im.com/assets/images/clients/mother-dairy.webp?v=1793120190" alt="Mother Dairy" loading="lazy" decoding="async">
+            <img src="https://www.ex-im.com/assets/images/clients/surya.webp?v=1793120190" alt="Surya" loading="lazy" decoding="async">
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           8. MOBILE APP INTERACTIVE SHOWCASE SECTION
+           ==================================================================== -->
+      <section class="apC" id="app-shrink" aria-labelledby="apC-title">
+        <div class="apC__sticky">
+          <div class="apC__glow"></div>
+          <div class="apC__big" aria-hidden="true"><span>Trade Analysis</span></div>
+          <span class="apC__hint" aria-hidden="true">SCROLL &darr;</span>
+          <div class="apC__phone">
+            <div class="apC__rig">
+              <div class="apC__frame"></div>
+              <div class="apC__dev" role="img" aria-label="The EX-IM app dashboard: profile views by country on a world map, with buyers by country: India 49, United States 13, South Africa 3">
+                <div class="apC__scr" aria-hidden="true">
+                  <span class="apC__island"></span>
+                  <div class="apC__status">
+                    <span>4:25</span>
+                    <span>
+                      <svg viewBox="0 0 18 10"><rect x="0" y="6" width="3" height="4" rx="1"/><rect x="5" y="4" width="3" height="6" rx="1"/><rect x="10" y="2" width="3" height="8" rx="1"/><rect x="15" y="0" width="3" height="10" rx="1"/></svg>
+                      <svg viewBox="0 0 14 10"><path d="M7 9.6 4.9 7.4a3 3 0 0 1 4.2 0zM2.8 5.3a6 6 0 0 1 8.4 0l-1.1 1.1a4.5 4.5 0 0 0-6.2 0zM.7 3.2a9 9 0 0 1 12.6 0l-1.1 1.1a7.5 7.5 0 0 0-10.4 0z"/></svg>
+                      <svg viewBox="0 0 24 10"><rect x=".5" y=".5" width="20" height="9" rx="2.5" fill="none" stroke="#fff" stroke-opacity=".5"/><rect x="2" y="2" width="15" height="6" rx="1.3"/><rect x="21.5" y="3.2" width="1.6" height="3.6" rx=".8" fill-opacity=".5"/></svg>
+                    </span>
+                  </div>
+                  <div class="apC__appbar"><img src="https://www.ex-im.com/assets/images/logo.svg?v=1793120190" alt="" loading="lazy"><span class="apC__ava">D</span></div>
+                  <div class="apC__h1">Dashboard</div>
+                  <div class="apC__card">
+                    <div class="apC__cardh">
+                      <svg viewBox="0 0 16 16" fill="none" stroke="url(#apCeye)" stroke-width="1.6">
+                        <defs><linearGradient id="apCeye" x1="0" x2="1"><stop offset="0" stop-color="#F7C9A5"/><stop offset="1" stop-color="#74D8FF"/></linearGradient></defs>
+                        <path d="M1.5 8S4 3.5 8 3.5 14.5 8 14.5 8 12 12.5 8 12.5 1.5 8 1.5 8z"/><circle cx="8" cy="8" r="2"/>
+                      </svg>
+                      Profile Views<em>View All</em>
+                    </div>
+                    <svg class="apC__map" viewBox="0 0 248 160"></svg>
+                    <div class="apC__tgl"><span>Buyers</span><span>Sellers</span></div>
+                  </div>
+                  <div class="apC__list">
+                    <div class="apC__row"><svg class="flag" viewBox="0 0 18 12"><rect width="18" height="4" fill="#FF9933"/><rect y="4" width="18" height="4" fill="#fff"/><rect y="8" width="18" height="4" fill="#138808"/><circle cx="9" cy="6" r="1.5" fill="none" stroke="#000080" stroke-width=".6"/></svg>India<b><svg viewBox="0 0 10 10"><circle cx="5" cy="3" r="2.2"/><path d="M1 10a4 4 0 0 1 8 0z"/></svg>49</b></div>
+                    <div class="apC__row"><svg class="flag" viewBox="0 0 18 12"><rect width="18" height="12" fill="#fff"/><g fill="#B22234"><rect width="18" height=".92"/><rect y="1.85" width="18" height=".92"/><rect y="3.7" width="18" height=".92"/><rect y="5.54" width="18" height=".92"/><rect y="7.38" width="18" height=".92"/><rect y="9.23" width="18" height=".92"/><rect y="11.08" width="18" height=".92"/></g><rect width="7.6" height="6.46" fill="#3C3B6E"/></svg>United States<b><svg viewBox="0 0 10 10"><circle cx="5" cy="3" r="2.2"/><path d="M1 10a4 4 0 0 1 8 0z"/></svg>13</b></div>
+                    <div class="apC__row"><svg class="flag" viewBox="0 0 18 12"><rect width="18" height="6" fill="#E03C31"/><rect y="6" width="18" height="6" fill="#001489"/><path d="M-1 0 7.5 6-1 12M7.5 6H19" fill="none" stroke="#fff" stroke-width="4"/><path d="M-1 0 7.5 6-1 12M7.5 6H19" fill="none" stroke="#007749" stroke-width="2.4"/><path d="M0 1.9 4.6 6 0 10.1z" fill="#000" stroke="#FFB81C" stroke-width=".8"/></svg>South Africa<b><svg viewBox="0 0 10 10"><circle cx="5" cy="3" r="2.2"/><path d="M1 10a4 4 0 0 1 8 0z"/></svg>3</b></div>
+                  </div>
+                  <div class="apC__nav">
+                    <span class="on"><svg viewBox="0 0 16 16"><path d="M2.5 13a6 6 0 1 1 11 0"/><path d="M8 9 10.5 5.5"/><circle cx="8" cy="9.5" r="1" fill="currentColor"/></svg><i>Dashboard</i></span>
+                    <span><svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"/><path d="m10.5 10.5 3.5 3.5"/></svg><i>Find</i></span>
+                    <span class="apC__mic"><svg viewBox="0 0 16 16"><rect x="5.5" y="1.5" width="5" height="8" rx="2.5"/><path d="M3 8a5 5 0 0 0 10 0M8 13v2"/></svg></span>
+                    <span><svg viewBox="0 0 16 16"><path d="M2 13.5h12M3 11l3.5-4 3 2.5L14 4"/></svg><i>Analysis</i></span>
+                    <span><svg viewBox="0 0 16 16"><path d="M4 11.5V7a4 4 0 0 1 8 0v4.5l1.2 1.5H2.8zM6.5 14.5h3"/></svg><i>Notifications</i></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="apC__copy">
+            <div class="apC__eyebrow">EX-IM MOBILE APP</div>
+            <h2 class="apC__title" id="apC-title"><span>Trade Analysis is Now</span><br><span>Pocket Sized</span></h2>
+            <p class="apC__sub">Find global buyers &amp; sellers instantly.</p>
+            <p class="apC__avail">Available on</p>
+            <div class="apC__stores">
+              <a class="apC__store" href="#app-shrink" aria-label="Download EX-IM on the App Store">
+                <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M11.182.008C11.148-.03 9.923.023 8.857 1.18c-1.066 1.156-.902 2.482-.878 2.516s1.52.087 2.475-1.258.762-2.391.728-2.43m3.314 11.733c-.048-.096-2.325-1.234-2.113-3.422s1.675-2.789 1.698-2.854-.597-.79-1.254-1.157a3.7 3.7 0 0 0-1.563-.434c-.108-.003-.483-.095-1.254.116-.508.139-1.653.589-1.968.607-.316.018-1.256-.522-2.267-.665-.647-.125-1.333.131-1.824.328-.49.196-1.422.754-2.074 2.237-.652 1.482-.311 3.83-.067 4.56s.625 1.924 1.273 2.796c.576.984 1.34 1.667 1.659 1.899s1.219.386 1.843.067c.502-.308 1.408-.485 1.766-.472.357.013 1.061.154 1.782.539.571.197 1.111.115 1.652-.105.541-.221 1.324-1.059 2.238-2.758q.52-1.185.473-1.282"/></svg>
+                <span><small>Download on the</small><b>App Store</b></span>
+              </a>
+              <a class="apC__store" href="#app-shrink" aria-label="Get EX-IM on Google Play">
+                <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M14.222 9.374c1.037-.61 1.037-2.137 0-2.748L11.528 5.04 8.32 8l3.207 2.96zm-3.595 2.116L7.583 8.68 1.03 14.73c.201 1.029 1.36 1.61 2.303 1.055zM1 13.396V2.603L6.846 8zM1.03 1.27l6.553 6.05 3.044-2.81L3.333.215C2.39-.341 1.231.24 1.03 1.27"/></svg>
+                <span><small>Get it on</small><b>Google Play</b></span>
+              </a>
+            </div>
+          </div>
+          <ul class="apC__chips">
+            <li><i><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1m4.9 6.25h-2.2a11 11 0 0 0-.86-4.04 5.5 5.5 0 0 1 3.06 4.04M8 2.6c.5.6 1.12 2.03 1.2 4.65H6.8C6.88 4.63 7.5 3.2 8 2.6M6.16 3.21a11 11 0 0 0-.86 4.04H3.1a5.5 5.5 0 0 1 3.06-4.04M3.1 8.75h2.2c.07 1.52.37 2.9.86 4.04A5.5 5.5 0 0 1 3.1 8.75M8 13.4c-.5-.6-1.12-2.03-1.2-4.65h2.4C9.12 11.37 8.5 12.8 8 13.4m1.84-.61c.49-1.14.79-2.52.86-4.04h2.2a5.5 5.5 0 0 1-3.06 4.04"/></svg></i><div><b>Profile views by country</b><span>See which markets look at you</span></div></li>
+            <li><i><svg viewBox="0 0 16 16" fill="currentColor"><path d="M5 4a2 2 0 1 1 0 .01zm6 0a2 2 0 1 1 0 .01zM1.5 12c0-2 1.6-3.5 3.5-3.5S8.5 10 8.5 12v1h-7zm7.5 1v-1c0-1-.3-1.9-.8-2.7A3.4 3.4 0 0 1 11 8.5c1.9 0 3.5 1.5 3.5 3.5v1z"/></svg></i><div><b>Buyers &amp; sellers, one tap</b><span>Switch sides of the trade</span></div></li>
+            <li><i><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a2.5 2.5 0 0 0-2.5 2.5v4a2.5 2.5 0 0 0 5 0v-4A2.5 2.5 0 0 0 8 1M3.5 7a.75.75 0 0 1 1.5 0 3 3 0 0 0 6 0 .75.75 0 0 1 1.5 0 4.5 4.5 0 0 1-3.75 4.44V13.5h1.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1 0-1.5h1.5v-2.06A4.5 4.5 0 0 1 3.5 7"/></svg></i><div><b>Voice search</b><span>Just ask for buyers or sellers</span></div></li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           9. FOOTER SECTION (With Aurora SVG Effect)
+           ==================================================================== -->
+      <section class="footer-section">
+        <div class="container">
+          <hr class="footer-divider">
+          <div class="footer-content">
+            <div class="row g-4 g-lg-5">
+
+              <div class="col-12 col-sm-6 col-lg-4">
+                <h6 class="footer-title">Platform Modules</h6>
+                <ul class="footer-links">
+                  <li><a class="footer-link" href="#top">Find Buyers &amp; Sellers</a></li>
+                  <li><a class="footer-link" href="#os-host">Company Profiles</a></li>
+                  <li><a class="footer-link" href="#edge-host">Trade Analysis</a></li>
+                  <li><a class="footer-link" href="#exim-foundation">Port Analysis</a></li>
+                  <li><a class="footer-link" href="#exim-foundation">Country Analysis</a></li>
+                  <li><a class="footer-link" href="#exim-nexus">Company &amp; Product Nexus</a></li>
+                  <li><a class="footer-link" href="#app-shrink">Mobile Dashboard</a></li>
+                </ul>
+              </div>
+
+              <div class="col-12 col-sm-6 col-lg-4">
+                <h6 class="footer-title">Navigation</h6>
+                <ul class="footer-links">
+                  <li><a class="footer-link" href="#exim-foundation">About Platform</a></li>
+                  <li><a class="footer-link" href="#cp-spotlight">Institutional Partners</a></li>
+                  <li><a class="footer-link" href="#dubai-office">Experience Centre</a></li>
+                  <li><a class="footer-link" href="#tm-title">Client Case Studies</a></li>
+                  <li><a class="footer-link" href="#top">HS Code Search</a></li>
+                </ul>
+              </div>
+
+              <div class="col-12 col-sm-6 col-lg-4">
+                <h6 class="footer-title">Academic Project Info</h6>
+                <ul class="footer-links legal-links">
+                  <li><a class="footer-link" href="#top">Web Development Lab (WDL)</a></li>
+                  <li><a class="footer-link" href="#exim-nexus">Interactive SVG Data Visualization</a></li>
+                  <li><a class="footer-link" href="#exim-foundation">AI Data Fusion Architecture</a></li>
+                  <li><a class="footer-link" href="#app-shrink">Responsive Mobile UI Design</a></li>
+                  <li><a class="footer-link" href="#top">Back to Top &uarr;</a></li>
+                </ul>
+              </div>
+
+            </div>
+
+            <div class="footer-bottom">
+              <p class="copyright">&copy; 2026 EX-IM Trade Analytics Platform &middot; Designed &amp; Developed for Web Development Lab (WDL) College Project.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Aurora Vector Glow -->
+        <div class="ft-aurora-wrap" aria-hidden="true">
+          <div class="ft-aurora">
+            <svg viewBox="0 0 1271 540" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="ftGrad" x1="0" y1="1" x2="0" y2="0">
+                  <stop offset="0" stop-color="#05070D"/>
+                  <stop offset=".16" stop-color="#0B3346"/>
+                  <stop offset=".32" stop-color="#2A9FC4"/>
+                  <stop offset=".46" stop-color="#6FE2FF"/>
+                  <stop offset=".60" stop-color="#D8D3FF"/>
+                  <stop offset=".74" stop-color="#F5C7A6"/>
+                  <stop offset=".86" stop-color="#FFBA6A"/>
+                  <stop offset="1" stop-color="#FFBA6A" stop-opacity="0"/>
+                </linearGradient>
+                <filter id="ftBlur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="30"/></filter>
+              </defs>
+              <g filter="url(#ftBlur)"><rect x="-10.4" y="340" width="111.7" height="259" fill="url(#ftGrad)"/></g>
+              <g filter="url(#ftBlur)"><rect x="80.3" y="275.8" width="111.7" height="323.2" fill="url(#ftGrad)"/></g>
+              <g filter="url(#ftBlur)"><rect x="171.1" y="215.6" width="111.7" height="383.4" fill="url(#ftGrad)"/></g>
+              <g filter="url(#ftBlur)"><rect x="261.9" y="159.9" width="111.7" height="439.1" fill="url(#ftGrad)"/></g>
+              <g filter="url(#ftBlur)"><rect x="352.7" y="109.5" width="111.7" height="489.5" fill="url(#ftGrad)"/></g>
+              <g filter="url(#ftBlur)"><rect x="443.5" y="65.9" width="111.7" height="533.1" fill="url(#ftGrad)"/></g>
+              <g filter="url(#ftBlur)"><rect x="534.3" y="32" width="111.7" height="567" fill="url(#ftGrad)"/></g>
+              <g filter="url(#ftBlur)"><rect x="625.1" y="32" width="111.7" height="567" fill="url(#ftGrad)"/></g>
+              <g filter="url(#ftBlur)"><rect x="715.8" y="65.9" width="111.7" height="533.1" fill="url(#ftGrad)"/></g>
+              <g filter="url(#ftBlur)"><rect x="806.6" y="109.5" width="111.7" height="489.5" fill="url(#ftGrad)"/></g>
+              <g filter="url(#ftBlur)"><rect x="897.4" y="159.9" width="111.7" height="439.1" fill="url(#ftGrad)"/></g>
+              <g filter="url(#ftBlur)"><rect x="988.2" y="215.6" width="111.7" height="383.4" fill="url(#ftGrad)"/></g>
+              <g filter="url(#ftBlur)"><rect x="1079" y="275.8" width="111.7" height="323.2" fill="url(#ftGrad)"/></g>
+              <g filter="url(#ftBlur)"><rect x="1169.8" y="340" width="111.7" height="259" fill="url(#ftGrad)"/></g>
+            </svg>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Floating Quick-Navigation CTA Button -->
+    <a class="bd" id="book-demo-cta" href="#exim-nexus" aria-label="Explore Supply Chain Nexus">
+      <span class="bd__in">
+        <span class="bd__icon">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+            <rect x="3" y="4.5" width="14" height="12.5" rx="2.5"/><path d="M3 8.5h14M7 2.5v4M13 2.5v4"/><path d="m8 12.5 1.6 1.6L12.5 11"/>
+          </svg>
+        </span>
+        <span class="bd__txt"><b>Explore Nexus</b><small>Interactive Supply Chain Graph</small></span>
+        <span class="bd__go">
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M2 7h10M8 3l4 4-4 4"/>
+          </svg>
+        </span>
+      </span>
+    </a>
+
+    <!-- API Endpoints & Interactive Scripts -->
+    <script>
+      window.EXIM_HSCODE_SUGGEST_URL = "https:\/\/www.ex-im.com\/get-hscode-listBycode";
+      window.EXIM_TRADE_DATA_URL     = "https:\/\/www.ex-im.com\/trade-data";
+    </script>
+
+    <script src="https://www.ex-im.com/assets/js/site.js?v=1794896902"></script>
+    <script src="https://www.ex-im.com/assets/js/search.js?v=1793120190"></script>
+    <script src="https://www.ex-im.com/assets/js/hero-globe.js?v=1793120190"></script>
+    <script src="https://www.ex-im.com/assets/js/home.js?v=1793120190"></script>
+    <script src="https://www.ex-im.com/assets/js/nexus.js?v=1793120190"></script>
+    <script src="https://www.ex-im.com/assets/js/globe.js?v=1793120190"></script>
+    <script src="https://www.ex-im.com/assets/js/sections/one-search.js?v=1793120190"></script>
+    <script src="https://www.ex-im.com/assets/js/sections/edge-story.js?v=1793120190"></script>
+  </body>
+</html>
